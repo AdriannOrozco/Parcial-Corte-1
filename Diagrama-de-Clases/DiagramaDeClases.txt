@@ -1,0 +1,80 @@
+@startuml
+    class Vendedor {
+
+        - Date fechaReclutamiento;
+        - String codigo;
+        - String nombre;
+        - String direccion;
+        - boolean rango;
+        - String empresa;
+        - int numeroVentas;
+        - Double volumenFacturacion;
+    }
+    
+    class Empresa { 
+      - String nombre;
+      - Date fechaIncorporacion;
+      - Double facturacionAnual;
+      - int numeroVendedoresEmpleados;
+      - ArrayList<String> pais; 
+      - ArrayList<String> sede;
+      - ArrayList<String> ciudad;
+      - ArrayList<String> asesor;
+    }
+    
+    class Paises {
+    
+    - String nombre;
+    - Double PIB;
+    - Long poblacion;
+    - String capital;
+    
+    }
+    
+    class Area {
+     - String nombre;
+     - String descripcion;
+    }
+    
+    class Asesor{
+      - String codigo;
+      - String nombre;
+      - Sting titulacion;
+      - String direccion;
+      - ArrayList<String> area;
+      - ArrayList<String> empresas;
+      - ArrayList<Date> fechaContrato;
+    
+    }
+    
+    
+    class MasVendedores{
+      - Date fechaReclutamiento;
+        - String codigo;
+        - String nombre;
+        - String direccion;
+        - boolean rango;
+        - String empresa;
+        - int numeroVentas;
+        - Double volumenFacturacion;;
+    }
+    
+    Asesor "*" -- "1" Area : cubre
+    Area "1" -- "*" Asesor : está cubierta
+    Asesor "1" -- "*" Empresa : asesora
+    
+    Vendedor "*" -- "1" Empresa : está asociado
+    Vendedor "1" -- "*" MasVendedores : recluta
+    MasVendedores "*" -- "1" Empresa : está asociado
+    
+    Empresa "*" -- "*" Area : opera
+    Empresa "1" -- "*" Paises : opera
+    Empresa "1" -- "*" Vendedor : tiene
+    Empresa "1" -- "*" MasVendedores : tiene
+    Empresa "1" -- "*" Asesor : cuenta
+    
+    Asesor "1" -- "*" Area : trabaja
+    Asesor "1" -- "*" Empresa : asesora
+    
+    Paises "1" -- "*" Empresa : opera
+@enduml
