@@ -1,10 +1,11 @@
 package Clases;
 public class Paises extends Object {
+
     private String nombre;
     private double PIB;
     private Long poblacion;
     private String capital;
-
+    
     public Paises() {
 
     }

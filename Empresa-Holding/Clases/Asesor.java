@@ -2,6 +2,7 @@ package Clases;
 import java.util.*;
 
 public class Asesor extends Object {
+    
     private String codigo;
     private String nombre;
     private String titulacion;

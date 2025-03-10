@@ -6,10 +6,11 @@ public class Empresa extends Object {
     private Date fechaIncorporacion;
     private double facturacionAnual;
     private int numeroVendedoresEmpleados;
+
     private ArrayList<String> pais;
-    private ArrayList<String> sede;
+    private ArrayList<String> sede;            
     private ArrayList<String> ciudad;
-    private ArrayList<String> area;
+    private ArrayList<String> area; 
     private ArrayList<String> asesor;
     
     public Empresa(){

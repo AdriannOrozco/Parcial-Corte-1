@@ -1,7 +1,7 @@
     package App;
     import java.io.IOException;
     import java.util.*;
-    import Clases.Reclutados;
+    import Clases.masVendedores;
     import Clases.Vendedor;
     import Clases.Paises;
     import Clases.Empresa;
@@ -17,9 +17,8 @@
 
     // Arrays utilizados
     static ArrayList<Vendedor> vendedores = new ArrayList<>();
-    static ArrayList<Reclutados> reclutados = new ArrayList<>();
+    static ArrayList<masVendedores> reclutados = new ArrayList<>();
     static ArrayList<Asesor> asesores = new ArrayList<>();
-
     static ArrayList<Area> areas = new ArrayList<>();
     static ArrayList<Paises> paises = new ArrayList<>();
     static ArrayList<Empresa> empresas = new ArrayList<>();
@@ -71,7 +70,7 @@
         new ArrayList<>(Arrays.asList("Ventas")), new ArrayList<>(Arrays.asList("Alberto"))));
 
         Date fechaD1 = new Date();
-        empresas.add(new Empresa("D1", fechaD1, 55000000, 35, new ArrayList<>(Arrays.asList("Colombia, Argentina")),
+        empresas.add(new Empresa("Rolautos", fechaD1, 55000000, 35, new ArrayList<>(Arrays.asList("Colombia, Argentina")),
         new ArrayList<>(Arrays.asList("Olaya")), new ArrayList<>(Arrays.asList("Cartagena")),
         new ArrayList<>(Arrays.asList("Ventas")), new ArrayList<>(Arrays.asList("Alberto"))));
 
@@ -79,6 +78,10 @@
         areas.add(new Area("Ventas", "Manejo del patrimonio."));
         areas.add(new Area("Marketing", "Publicidad de la empresa en general."));
         areas.add(new Area("Produccion", "Crear más materia prima."));
+
+        //Añadir asesor
+        Date contratoAlberto = new Date();
+        asesores.add(new Asesor("7777777", "Alberto", "Experto", "La Magdalena", new ArrayList<>(Arrays.asList("Ventas")), new ArrayList<>(Arrays.asList("Makro, D1")), new ArrayList<>(Arrays.asList(contratoAlberto))));
 
         int opcionPrincipal;
         boolean salirSistema = false;
@@ -95,13 +98,13 @@
 
             do {
                 while (!leer_n.hasNextInt()) {
-                    System.out.println("⚠ Digite un número válido.");
+                    System.out.println("Digite un número válido.");
                     leer_n.next();
                 }
                 opcionPrincipal = leer_n.nextInt();
 
                 if (opcionPrincipal < 0 || opcionPrincipal > 5) {
-                    System.out.println("⚠ La opción es inválida.");
+                    System.out.println(" La opción es inválida.");
                 }
             } while (opcionPrincipal < 0 || opcionPrincipal > 5);
 
@@ -354,8 +357,7 @@
                     }
 
                 case 2:
-                    rango = true;
-                    System.out.println("Por último, ingresa la empresa donde está asignado " + nombre + ": ");
+                    rango = false;
 
                     // Asignar empresa
                     do {
@@ -432,286 +434,205 @@
         }
     }
 
-    public static void verVendedoresReclutadoPorOtroVendedor(ArrayList<Reclutados> reclutados) {
+    public static void verVendedoresReclutadoPorOtroVendedor(ArrayList<masVendedores> reclutados) {
         limpiarPantalla();
         System.out.println(" || LISTA DE VENDEDORES REGISTRADOS EN EL SISTEMA || ");
         System.out.println("Nota: agregados por otros vendedores.");
         System.out.println("");
-        for (Reclutados i : reclutados) {
+        for (masVendedores i : reclutados) {
             System.out.println(i);
             System.out.println("");
         }
     }
 
-    public static void reclutarVendedores(ArrayList<Reclutados> reclutados, ArrayList<Vendedor> vendedores) {
+    public static void reclutarVendedores(ArrayList<masVendedores> reclutados, ArrayList<Vendedor> vendedores) {
         limpiarPantalla();
         String verificarCodigo, verificarNombre;
         String empresaReclutador;
-
+        
         System.out.println(" -> || RECLUTAR MÁS VENDEDORES || <- ");
         System.out.println("");
         System.out.println("* Sólo se puede reclutar vendedores si eres un vendedor con jerarquía.");
         System.out.println("");
-
+        
         // Si no hay vendedores, muestra el mensaje y regresa
         if (reclutados.isEmpty() && vendedores.isEmpty()) {
             System.out.println("No hay vendedores registrados en el sistema.");
             return;
         }
-
+        
         do {
             System.out.print("1. Digita tu nombre: ");
             verificarNombre = leer_s.nextLine();
-
+        
             if (contieneNumeros(verificarNombre)) {
-                System.out.println("El nombre no puede contener números.");
-                System.out.println("");
+                System.out.println("El nombre no puede contener números.\n");
             }
-
+        
             if (verificarNombre.length() < 3) {
-                System.out.println("El nombre es demasiado corto.");
-                System.out.println("");
+                System.out.println("El nombre es demasiado corto.\n");
             }
         } while (verificarNombre.length() < 3 || contieneNumeros(verificarNombre));
-
+        
         do {
             System.out.print("2. Digita tu código para hallarte en el sistema: ");
             verificarCodigo = leer_s.nextLine();
-
+        
             if (verificarCodigo.length() < 6) {
-                System.out.println("El código es demasiado corto.");
-                System.out.println("");
+                System.out.println("El código es demasiado corto.\n");
             }
         } while (verificarCodigo.length() < 6);
-
+        
         // Bandera para rastrear si encontramos al vendedor
         boolean vendedorEncontrado = false;
-
+        
         for (int i = 0; i < vendedores.size(); i++) {
-            if (vendedores.get(i).getNombre().trim().equals(verificarNombre) &&
-                    vendedores.get(i).getCodigo().trim().equals(verificarCodigo)) {
-
-                // Añadimos la empresa default
+            if (vendedores.get(i).getNombre().trim().equals(verificarNombre) && vendedores.get(i).getCodigo().trim().equals(verificarCodigo)) {
+        
                 empresaReclutador = vendedores.get(i).getEmpresa();
-
+        
                 limpiarPantalla();
-                System.out.println("Fuiste hallado en el sistema, estos son tus datos:");
-                System.out.println("");
-                System.out.println(vendedores.get(i));
-                System.out.println("");
+                System.out.println("Fuiste hallado en el sistema, estos son tus datos:\n");
+                System.out.println(vendedores.get(i) + "\n");
                 pausarPantalla();
-
-                if (vendedores.get(i).getRango()) {
-                    limpiarPantalla();
-                    int opcionParaReclutar;
-
-                    System.out
-                            .println(vendedores.get(i).getNombre() + " tienes jerarquía para reclutar más vendedores.");
-                    System.out.println("");
-                    System.out.println("¿Deseas reclutar otro/a vendedor/a?");
-                    System.out.println("1. Sí.");
-                    System.out.println("2. No.");
-                    System.out.print("Digita una opción: ");
-                    do {
-                        while (!leer_n.hasNextInt()) {
-                            System.out.println("Digite un número, no un cáracter.");
-                            leer_s.next();
-                        }
-
-                        opcionParaReclutar = leer_n.nextInt();
-
-                        if (opcionParaReclutar < 0 || opcionParaReclutar > 2) {
-                            System.out.println("Opción inválida.");
-                        }
-
-                    } while (opcionParaReclutar < 0 || opcionParaReclutar > 2);
-
-                    switch (opcionParaReclutar) {
-
-                        case 1:
-                            limpiarPantalla();
-                            System.out.println(vendedores.get(i).getNombre()
-                                    + ". Harás el proceso de inscripción para otro vendedor:");
-
-                            // Proceso de inscripción
-                            String codigo, nombre, direccion;
-                            Date fechaRegistro = new Date();
-                            boolean rango;
-                            int numeroVentas;
-                            double volumenFacturacion;
-
-                            System.out.println("-> || REGISTRAR VENDEDOR || <-");
-                            System.out.println("");
-
-                            do {
-                                System.out.print("1. Digite el nombre del vendedor: ");
-                                nombre = leer_s.nextLine();
-
-                                if (contieneNumeros(nombre)) {
-                                    System.out.println("El nombre no puede contener números.");
-                                    System.out.println("");
-                                }
-
-                                if (nombre.length() < 3) {
-                                    System.out.println("El nombre es demasiado corto.");
-                                    System.out.println("");
-                                }
-                            } while (nombre.length() < 3 || contieneNumeros(nombre));
-
-                            do {
-                                System.out.print("2. Digite el código del vendedor: ");
-                                codigo = leer_s.nextLine();
-
-                                if (codigo.length() < 6) {
-                                    System.out.println("El código es demasiado corto.");
-                                    System.out.println("");
-                                }
-                            } while (codigo.length() < 6);
-
-                            // Verificación que no exista un cliente con mismo código
-                            boolean existe = false;
-                            for (int j = 0; j < vendedores.size(); j++) {
-                                for (int r = 0; r < reclutados.size(); r++) {
-                                    if (vendedores.get(i).getCodigo().equals(codigo)
-                                            || reclutados.get(i).getCodigo().equals(codigo)) {
-                                        existe = true;
-                                    }
-                                }
-                            }
-
-                            if (!existe) {
-
-                                do {
-                                    System.out.print("3. Digite la dirección  del vendedor: ");
-                                    direccion = leer_s.nextLine();
-
-                                    if (direccion.length() < 6) {
-                                        System.out.println("La dirección es demasiado corta.");
-                                        System.out.println("");
-                                    }
-                                } while (direccion.length() < 6);
-
-                                int opcionJerarquia;
-                                System.out.println("¿4. El vendedor cuenta con el rango para reclutar más vendedores?");
-                                System.out.println("1. Sí tiene jerarquía.");
-                                System.out.println("2. No tiene jerarquía.");
-                                System.out.print("Digite una opción: ");
-                                do {
-                                    while (!leer_n.hasNextInt()) {
-                                        System.out.println("Digite un número, no un cáracter.");
-                                        leer_n.next();
-                                    }
-                                    opcionJerarquia = leer_n.nextInt();
-
-                                    if (opcionJerarquia < 0 || opcionJerarquia > 2) {
-                                        System.out.println("La opción es inválida.");
-                                    }
-                                } while (opcionJerarquia < 0 || opcionJerarquia > 3);
-
-                                // Asignamos automáticamente la empresa
-                                System.out.println("El vendedor será asignado a la empresa " + empresaReclutador);
-
-                                switch (opcionJerarquia) {
-
-                                    case 1:
-                                        rango = true;
-                                        do {
-                                            System.out.print("5. Introduce el número del ventas del vendedor: ");
-                                            while (!leer_n.hasNextInt()) {
-                                                System.out.println("Introduce un número, no un cáracter.");
-                                                leer_n.next();
-                                            }
-                                            numeroVentas = leer_n.nextInt();
-
-                                            if (numeroVentas < 0) {
-                                                System.out.println("Las ventas no pueden ser negativas.");
-                                            }
-                                        } while (numeroVentas < 0);
-
-                                        do {
-                                            System.out.print("6. Introduce el volumen de facturación del vendedor: ");
-                                            while (!leer_n.hasNextDouble()) {
-                                                System.out.println("Introduce un número, no un cáracter.");
-                                                leer_n.next();
-                                            }
-                                            volumenFacturacion = leer_n.nextInt();
-
-                                            if (volumenFacturacion < 0) {
-                                                System.out.println("El volumen de facturación no puede ser negativos.");
-                                            }
-                                        } while (volumenFacturacion < 0);
-                                        limpiarPantalla();
-                                        reclutados.add(new Reclutados(fechaRegistro, codigo, nombre, direccion, rango,
-                                                empresaReclutador, numeroVentas, volumenFacturacion));
-                                        System.out.println("El vendedor fue registrado con éxito");
-                                        break;
-
-                                    case 2:
-                                        rango = false;
-                                        do {
-                                            System.out.print("5. Introduce el número del ventas del vendedor: ");
-                                            while (!leer_n.hasNextInt()) {
-                                                System.out.println("Introduce un número, no un cáracter.");
-                                                leer_n.next();
-                                            }
-                                            numeroVentas = leer_n.nextInt();
-
-                                            if (numeroVentas < 0) {
-                                                System.out.println("Las ventas no pueden ser negativas.");
-                                            }
-                                        } while (numeroVentas < 0);
-
-                                        do {
-                                            System.out.print("6. Introduce el volumen de facturación del vendedor: ");
-                                            while (!leer_n.hasNextDouble()) {
-                                                System.out.println("Introduce un número, no un cáracter.");
-                                                leer_n.next();
-                                            }
-                                            volumenFacturacion = leer_n.nextInt();
-
-                                            if (volumenFacturacion < 0) {
-                                                System.out.println("El volumen de facturación no puede ser negativos.");
-                                            }
-                                        } while (volumenFacturacion < 0);
-                                        limpiarPantalla();
-                                        reclutados.add(new Reclutados(fechaRegistro, codigo, nombre, direccion, rango,
-                                                empresaReclutador, numeroVentas, volumenFacturacion));
-                                        System.out.println("El vendedor fue registrado con éxito");
-                                        break;
-                                }
-
-                            } else {
-                                limpiarPantalla();
-                                System.out.println(" || ERROR 405 ||");
-                                System.out.println("Ya existe un cliente registrado con un código.");
-                            }
-                            // break caso 1
-                            break;
-
-                        case 2:
-                            limpiarPantalla();
-                            System.out.println("|| OPERACIÓN CANCELADA ||");
-                            System.out.println("Cancelaste el proceso de añadir otro vendedor.");
-                            break;
-                    }
-
-                } else {
+        
+                if (vendedores.get(i).getRango() == false) {
                     limpiarPantalla();
                     System.out.println(" || ERROR DE JERARQUÍA || ");
-                    System.out.println(
-                            "Fuiste hallado en el sistema pero no tienes derecho para reclutar más vendedores.");
+                    System.out.println("Fuiste hallado en el sistema pero no tienes derecho para reclutar más vendedores.");
+                    vendedorEncontrado = true; // Marcar como encontrado para evitar el mensaje de error 404
+                    break; // Salir del bucle
                 }
-
+        
+                limpiarPantalla();
+                int opcionParaReclutar;
+        
+                System.out.println(vendedores.get(i).getNombre() + " tienes jerarquía para reclutar más vendedores.\n");
+                System.out.println("¿Deseas reclutar otro/a vendedor/a?");
+                System.out.println("1. Sí.");
+                System.out.println("2. No.");
+                System.out.print("Digita una opción: ");
+                do {
+                    while (!leer_n.hasNextInt()) {
+                        System.out.println("Digite un número, no un cáracter.");
+                        leer_s.next();
+                    }
+        
+                    opcionParaReclutar = leer_n.nextInt();
+        
+                    if (opcionParaReclutar < 1 || opcionParaReclutar > 2) {
+                        System.out.println("Opción inválida.");
+                    }
+        
+                } while (opcionParaReclutar < 1 || opcionParaReclutar > 2);
+        
+                switch (opcionParaReclutar) {
+                    case 1:
+                        limpiarPantalla();
+                        System.out.println(vendedores.get(i).getNombre() + ". Harás el proceso de inscripción para otro vendedor:");
+        
+                        // Proceso de inscripción
+                        String codigo, nombre, direccion;
+                        Date fechaRegistro = new Date();
+                        int numeroVentas;
+                        double volumenFacturacion;
+        
+                        System.out.println("-> || REGISTRAR VENDEDOR || <-\n");
+        
+                        do {
+                            System.out.print("1. Digite el nombre del vendedor: ");
+                            nombre = leer_s.nextLine();
+        
+                            if (contieneNumeros(nombre)) {
+                                System.out.println("El nombre no puede contener números.\n");
+                            }
+        
+                            if (nombre.length() < 3) {
+                                System.out.println("El nombre es demasiado corto.\n");
+                            }
+                        } while (nombre.length() < 3 || contieneNumeros(nombre));
+        
+                        do {
+                            System.out.print("2. Digite el código del vendedor: ");
+                            codigo = leer_s.nextLine();
+        
+                            if (codigo.length() < 6) {
+                                System.out.println("El código es demasiado corto.\n");
+                            }
+                        } while (codigo.length() < 6);
+        
+                        // Verificación corregida que no exista un cliente con mismo código
+                        boolean existe = false;
+                        // Verificar en la lista de vendedores
+                        for (int j = 0; j < vendedores.size(); j++) {
+                            if (vendedores.get(j).getCodigo().equals(codigo)) {
+                                existe = true;
+                                break;
+                            }
+                        }
+                        
+                        // Si no existe en vendedores, verificar en reclutados
+                        if (!existe) {
+                            for (int r = 0; r < reclutados.size(); r++) {
+                                if (reclutados.get(r).getCodigo().equals(codigo)) {
+                                    existe = true;
+                                    break;
+                                }
+                            }
+                        }
+        
+                        if (!existe) {
+                            do {
+                                System.out.print("3. Digite la dirección del vendedor: ");
+                                direccion = leer_s.nextLine();
+        
+                                if (direccion.length() < 6) {
+                                    System.out.println("La dirección es demasiado corta.\n");
+                                }
+                            } while (direccion.length() < 6);
+        
+                            System.out.println("El vendedor será asignado a la empresa " + empresaReclutador);
+                            do {
+                                System.out.print("5. Introduce el número de ventas del vendedor: ");
+                                while (!leer_n.hasNextInt()) {
+                                    System.out.println("Introduce un número, no un cáracter.");
+                                    leer_n.next();
+                                }
+                                numeroVentas = leer_n.nextInt();
+                            } while (numeroVentas < 0);
+        
+                            do {
+                                System.out.print("6. Introduce el volumen de facturación del vendedor: ");
+                                while (!leer_n.hasNextDouble()) {
+                                    System.out.println("Introduce un número, no un cáracter.");
+                                    leer_n.next();
+                                }
+                                volumenFacturacion = leer_n.nextDouble();
+                            } while (volumenFacturacion < 0);
+        
+                            limpiarPantalla();
+                            reclutados.add(new masVendedores(fechaRegistro, codigo, nombre, direccion, empresaReclutador, numeroVentas, volumenFacturacion));
+                            System.out.println("El vendedor fue registrado con éxito");
+                        } else {
+                            limpiarPantalla();
+                            System.out.println(" || ERROR 405 || Ya existe un cliente registrado con ese código.");
+                        }
+                        break;
+                    case 2:
+                        limpiarPantalla();
+                        System.out.println("|| OPERACIÓN CANCELADA ||");
+                        break;
+                }
+        
                 vendedorEncontrado = true;
-                break; // Detiene el bucle una vez que encontramos al vendedor
+                break;
             }
         }
-
+        
         if (!vendedorEncontrado) {
             limpiarPantalla();
-            System.out.println("|| ERROR 404 ||");
-            System.out.println("No se encontró ningún vendedor con ese nombre y código.");
-        }
+            System.out.println("|| ERROR 404 || No se encontró ningún vendedor con ese nombre y código.");
+        }  
     }
 
     //Apartado de empresas
@@ -959,70 +880,65 @@
         limpiarPantalla();
         String nombre, capital;
         double PIB;
-        Long poblacion;
-
+        long poblacion;
+    
+        // Validar nombre del país
         do {
             System.out.print("1. Introduce el nombre del país: ");
-            nombre = leer_s.nextLine();
-
+            nombre = leer_s.nextLine().trim();
+    
             if (nombre.length() < 4) {
-                System.out.println("El nombre del país es demasiado corto.");
-                System.out.println("");
+                System.out.println("El nombre del país es demasiado corto.\n");
             }
-
             if (contieneNumeros(nombre)) {
-                System.out.println("El nombre del país no puede contener números.");
-                System.out.println("");
+                System.out.println("El nombre del país no puede contener números.\n");
             }
         } while (contieneNumeros(nombre) || nombre.length() < 4);
-
+ 
         do {
             System.out.print("2. Introduce la capital del país: ");
-            capital = leer_s.nextLine();
-
+            capital = leer_s.nextLine().trim();
+    
             if (capital.length() < 4) {
-                System.out.println("La capital del país es demasiado corto.");
-                System.out.println("");
+                System.out.println("La capital del país es demasiado corta.\n");
             }
-
             if (contieneNumeros(capital)) {
-                System.out.println("La capital del país no puede contener números.");
-                System.out.println("");
+                System.out.println("La capital del país no puede contener números.\n");
             }
         } while (contieneNumeros(capital) || capital.length() < 4);
-
-        // PIB
-
+    
+     
         do {
-            System.out.print("3. Introduce el PIB del país:");
+            System.out.print("3. Introduce el PIB del país: ");
             while (!leer_n.hasNextDouble()) {
-                System.out.println("Introduce un número, no un cáracter.");
+                System.out.println("Introduce un número válido para el PIB.");
                 leer_n.next();
             }
             PIB = leer_n.nextDouble();
-
+            
             if (PIB < 0) {
                 System.out.println("El PIB no puede ser negativo.");
             }
         } while (PIB < 0);
-
+    
+        // Validar población
         do {
-            System.out.print("3. Introduce la población del país: ");
+            System.out.print("4. Introduce la población del país: ");
             while (!leer_n.hasNextLong()) {
-                System.out.println("Introduce un número, no carácteres.");
+                System.out.println("Introduce un número entero válido para la población.");
                 leer_n.next();
             }
             poblacion = leer_n.nextLong();
             leer_n.nextLine();
-
+    
             if (poblacion < 0) {
                 System.out.println("La población no puede ser negativa.");
             }
         } while (poblacion < 0);
+    
         limpiarPantalla();
         paises.add(new Paises(nombre, PIB, poblacion, capital));
         System.out.println("El modelo del país ha sido añadido con éxito.");
-
     }
 
     //Apartado de Asesor

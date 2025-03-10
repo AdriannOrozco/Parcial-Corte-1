@@ -1,0 +1,27 @@
+Link de los vídeos de YouTube (En formato txt por si existe error con los de word).
+
+Estudiante: Adrián Enrique Orozco Botero, 3er Semestre.
+
+•	Link 1 (Enunciado del ejercicio vs diagrama de clases).
+https://youtu.be/IdBa4UcZ440
+
+•	Link 2 (Diagrama de clases vs Código en Java):
+https://youtu.be/19D8htTn_tI
+
+
+•	Link 3 (Programa en ejecución):
+https://youtu.be/TyYkWdU2G9A
+
+
+Nota: los links son ocultos, pero no privado, es decir, la única forma de poder visualizar los vídeos es con el link que 
+está en los videos.
+
+
+LEER:
+Tuve un problema con la cámara de mi portátil, no sé si es algún error de configuración, porque la cámara de ella aparece como si funcionara (no está dañada ni golpeada) Además que mi dispositivo es nuevo, intenté solucionar ese problema, pero no le encontré la solución, dejaré un vídeo mostrando el error y la foto.
+Link de evidencia:
+https://youtu.be/1Fr6QZ-qRZ8
+
+(En el archivo doc está la imagen de prueba).
+
+

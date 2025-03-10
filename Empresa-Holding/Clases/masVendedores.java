@@ -1,27 +1,24 @@
 package Clases;
 import java.util.*;
 
-public class Reclutados{
+public class masVendedores{
     private Date fechaReclutamiento;
     private String codigo;
     private String nombre;
     private String direccion;
-    private Boolean rango;
     private String empresa; 
     private int numeroVentas;
     private double volumenFacturacion;
 
-     public Reclutados(){
+     public masVendedores(){
 
      }
 
-    
-    public Reclutados(Date fechaReclutamiento, String codigo, String nombre, String direccion, Boolean rango, String empresa, int numeroVentas, double volumenFacturacion) {
+    public masVendedores(Date fechaReclutamiento, String codigo, String nombre, String direccion, String empresa, int numeroVentas, double volumenFacturacion) {
         this.fechaReclutamiento = fechaReclutamiento;
         this.codigo = codigo;
         this.nombre = nombre;
         this.direccion = direccion;
-        this.rango = rango;
         this.empresa = empresa;
         this.numeroVentas = numeroVentas;
         this.volumenFacturacion = volumenFacturacion;
@@ -60,14 +57,6 @@ public class Reclutados{
         this.direccion = direccion;
     }
 
-    public Boolean getRango() {
-        return rango;
-    }
-
-    public void setRango(Boolean rango) {
-        this.rango = rango;
-    }
-
     public String getEmpresa() {
         return empresa;
     }
@@ -102,8 +91,7 @@ public class Reclutados{
         return "| Nombre del vendedor : " + nombre +
          " | Fecha de registro : " +  fechaReclutamiento + 
          " | Código : " +  codigo + 
-         " | Dirección : " + direccion 
-         + "\n¿Tiene rango? " + rango +
+         " | Dirección : " + direccion +
          "\nRendimiento \n| Empresa: " + empresa +
          " | Número de ventas: " + numeroVentas +
          " | Volumen de facturación: " + volumenFacturacion;
