@@ -7,6 +7,15 @@
         - String direccion;
         - boolean rango;
         - String empresa;
+@startuml
+    class Vendedor {
+
+        - Date fechaReclutamiento;
+        - String codigo;
+        - String nombre;
+        - String direccion;
+        - boolean rango;
+        - String empresa;
         - int numeroVentas;
         - Double volumenFacturacion;
     }
@@ -16,6 +25,7 @@
       - Date fechaIncorporacion;
       - Double facturacionAnual;
       - int numeroVendedoresEmpleados;
+      - ArrayList<String> area;
       - ArrayList<String> pais; 
       - ArrayList<String> sede;
       - ArrayList<String> ciudad;
@@ -53,10 +63,9 @@
         - String codigo;
         - String nombre;
         - String direccion;
-        - boolean rango;
         - String empresa;
         - int numeroVentas;
-        - Double volumenFacturacion;;
+        - Double volumenFacturacion;
     }
     
     Asesor "*" -- "1" Area : cubre
@@ -72,9 +81,8 @@
     Empresa "1" -- "*" Vendedor : tiene
     Empresa "1" -- "*" MasVendedores : tiene
     Empresa "1" -- "*" Asesor : cuenta
-    
-    Asesor "1" -- "*" Area : trabaja
-    Asesor "1" -- "*" Empresa : asesora
-    
+
     Paises "1" -- "*" Empresa : opera
+    
+    
 @enduml
